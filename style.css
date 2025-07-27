@@ -49,7 +49,7 @@ nav ul li a:hover {
 /* Hero Section */
 .hero {
   height: 100vh;
-  background: linear-gradient(135deg, #ea4335, #fbbc05, #34a853, #4285f4);
+  background: linear-gradient(135deg, #ea4335, #34a853, #4285f4);
   background-size: 400% 400%;
   animation: gradientMove 15s ease infinite;
   display: flex;
