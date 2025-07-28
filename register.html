@@ -22,7 +22,34 @@
       flex-direction: column;
       justify-content: flex-start;
     }
+@media (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+  }
 
+  .menu-toggle {
+    display: block;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    margin-top: 10px;
+    padding: 10px 0;
+
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  nav ul li {
+    text-align: center;
+    margin: 5px 0;
+  }
+}
     /* ---------- Navbar ---------- */
     nav {
       display: flex;
