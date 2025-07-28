@@ -216,9 +216,13 @@
 <body class="background">
 
   <!-- Navbar / Header -->
- <nav>
+<nav>
   <div class="logo">Waarp<span>Tech</span></div>
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <div class="hamburger" onclick="toggleMenu(this)">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <ul id="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="courses.html">Courses</a></li>
@@ -227,6 +231,7 @@
     <li><a href="register.html">Register</a></li>
   </ul>
 </nav>
+
   <!-- Registration Form -->
   <div class="container">
     <form id="registration-form" action="https://formspree.io/f/mvgqrkga" method="POST" novalidate>
@@ -338,9 +343,20 @@
     }
   });
 
-      function toggleMenu() {
+    function toggleMenu(icon) {
+    icon.classList.toggle("active");
     document.getElementById("nav-links").classList.toggle("show");
+
+    // Optional: Set active link highlight
+    const links = document.querySelectorAll("#nav-links a");
+    links.forEach(link => {
+      link.addEventListener("click", () => {
+        links.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
   }
+
 
 
 
