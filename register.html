@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for Training - WaarpTech</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #F5F5F7;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-image: radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.1), transparent 40%);
+        }
+
+        /* Container for centering content */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+        
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 8rem 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Header Styles */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: all 0.4s ease-in-out;
+        }
+        .header-content-wrapper {
+            background-color: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            margin: 0;
+            width: 100%;
+            transition: all 0.4s ease-in-out;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+        }
+        .header-scrolled .header-content-wrapper {
+            margin: 1rem auto;
+            width: 95%;
+            max-width: 1280px;
+            background-color: rgba(30, 30, 30, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; }
+        .main-nav { display: none; }
+        @media (min-width: 768px) { .main-nav { display: flex; align-items: center; gap: 2rem; } }
+        .main-nav a { color: #D1D5DB; text-decoration: none; transition: color 0.3s ease; }
+        .main-nav a:hover { color: white; }
+        .header-actions { display: none; }
+        @media (min-width: 768px) { .header-actions { display: block; } }
+        .mobile-menu-button { display: block; background: none; border: none; color: white; cursor: pointer; padding: 0.5rem; }
+        @media (min-width: 768px) { .mobile-menu-button { display: none; } }
+        .mobile-menu { display: none; background-color: #000; }
+        .mobile-menu.open { display: block; }
+        .mobile-menu a { display: block; padding: 0.75rem 1.5rem; color: #D1D5DB; text-decoration: none; }
+        .mobile-menu a:hover { background-color: #111827; }
+        .mobile-menu .btn-wrapper { padding: 1rem; }
+
+        /* Form Container */
+        .form-container {
+            background-color: rgba(22, 22, 22, 0.5);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            width: 100%;
+        }
+        @media (min-width: 640px) { .form-container { padding: 2.5rem; } }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .form-header p {
+            color: #9CA3AF;
+            margin-top: 0.5rem;
+        }
+        .gradient-text { background: linear-gradient(90deg, #2563EB, #4F46E5, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Form Steps */
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+        }
+
+        /* Input Fields & Labels */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #D1D5DB;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid #374151;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .input-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+        .input-group select option {
+            background-color: #111827;
+        }
+        
+        /* Button Styles */
+        .btn { display: inline-block; font-weight: 600; border-radius: 0.75rem; padding: 0.85rem 1.5rem; font-size: 1rem; text-decoration: none; text-align: center; transition: background-color 0.3s ease, transform 0.2s ease; border: none; cursor: pointer; width: 100%; }
+        .btn-primary { background-color: #2563EB; color: white; }
+        .btn-primary:hover { background-color: #1D4ED8; }
+        .btn-primary:disabled { background-color: #374151; cursor: not-allowed; }
+        
+        /* Success Message & Animation */
+        .success-message { text-align: center; }
+        .success-message h2 { font-size: 1.75rem; margin: 0; }
+        .success-message p { color: #9CA3AF; margin-top: 0.5rem; }
+        .success-animation {
+            margin: 2.5rem auto;
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+        .pulse-circle {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: pulse 1.5s infinite cubic-bezier(0.65, 0, 0.45, 1);
+        }
+        .signal-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #2563EB;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: icon-pop-in 0.5s ease-out;
+        }
+        .signal-icon svg {
+            width: 32px;
+            height: 32px;
+            color: white;
+            opacity: 0;
+            animation: icon-fade-in 0.5s ease-in 0.3s forwards;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.6); opacity: 0.5; }
+            80% { transform: scale(1.2); opacity: 0; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        @keyframes icon-pop-in {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        @keyframes icon-fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Custom Message Box for Errors */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1F2937;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #4B5563;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, top 0.3s ease;
+        }
+        .message-box.show {
+            opacity: 1;
+            visibility: visible;
+            top: 40px;
+        }
+        
+        /* Footer */
+        .main-footer { background-color: rgba(17, 24, 39, 0.7); border-top: 1px solid #1f2937; padding: 3rem 0; }
+        .footer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1024px) { .footer-grid { grid-template-columns: repeat(5, 1fr); } }
+        .footer-col-main { grid-column: span 2 / span 2; }
+        @media (min-width: 1024px) { .footer-col-main { grid-column: span 1 / span 1; } }
+        .footer-col h4 { font-weight: 600; color: white; margin: 0; }
+        .footer-col ul { list-style: none; padding: 0; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .footer-col a, .footer-col li { color: #9CA3AF; text-decoration: none; transition: color 0.3s ease; }
+        .footer-col a:hover { color: white; }
+        .footer-socials { display: flex; margin-top: 1rem; gap: 1rem; }
+        .footer-bottom { margin-top: 3rem; border-top: 1px solid #1f2937; padding-top: 2rem; text-align: center; font-size: 0.875rem; color: #6B7280; }
+
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content-wrapper">
+            <div class="container" style="max-width: 1280px;">
+                <div class="header-content">
+                    <a href="#" class="logo">Waarp<span class="gradient-text">Tech</span></a>
+                    <nav class="main-nav">
+                        <a href="courses.html">Courses</a>
+                        <a href="about.html">About Us</a>
+                        <a href="#">Contact</a>
+                    </nav>
+                    <div class="header-actions">
+                        <a href="#" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 1rem;">Register</a>
+                    </div>
+                    <button id="mobile-menu-button" class="mobile-menu-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="courses.html">Courses</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <div class="btn-wrapper">
+                 <a href="register.html" class="btn btn-primary">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>Join <span class="gradient-text">WaarpTech</span></h1>
+                    <p>Start your journey into tech today. Fill out the form to register.</p>
+                </div>
+
+                <form id="registration-form" action="https://formspree.io/f/manbogrd" method="POST">
+                    
+                    <!-- Step 1: Registration Details -->
+                    <div id="step-1" class="form-step active">
+                        <div class="input-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" name="fullName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                         <div class="input-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="e.g., 9876543210" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="course-selection">Select a Course</label>
+                            <select id="course-selection" name="course" required>
+                                <option value="" disabled selected>Choose a course...</option>
+                                <option value="Mastering Digital Marketing with AI">Mastering Digital Marketing with AI</option>
+                                <option value="AWS Cloud Computing Mastery">AWS Cloud Computing Mastery</option>
+                                <option value="Game Development with Unity and Unreal Engine">Game Development with Unity and Unreal Engine</option>
+                                <option value="Data Analytics and Visualization">Data Analytics and Visualization</option>
+                                <option value="Data Science with Machine Learning">Data Science with Machine Learning</option>
+                                <option value="Android App Development">Android App Development</option>
+                                <option value="Flutter App Development">Flutter App Development</option>
+                                <option value="Graphic Design with Adobe Creative Cloud">Graphic Design with Adobe Creative Cloud</option>
+                                <option value="Full Stack Web Development (HTML, CSS, JS)">Full Stack Web Development (HTML, CSS, JS)</option>
+                                <option value="3D UX/UI Design with Blender and Maya">3D UX/UI Design with Blender and Maya</option>
+                                <option value="Web Development with React, Node.js, and MongoDB">Web Development (MERN Stack)</option>
+                                <option value="Python Programming with Data Science">Python Programming with Data Science</option>
+                                <option value="Full Stack Development with Python or React">Full Stack Development (Python/React)</option>
+                                <option value="IT Languages with C and C++">IT Languages with C and C++</option>
+                                <option value="Software Development with Agile">Software Development with Agile</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="register-btn" class="btn btn-primary">Register</button>
+                    </div>
+
+                    <!-- Step 2: Success Message -->
+                    <div id="step-2" class="form-step">
+                        <div class="success-message">
+                            <div class="success-animation">
+                                <div class="pulse-circle"></div>
+                                <div class="signal-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <h2>Registration Successful!</h2>
+                            <p>Thank you for registering. We have received your details and will contact you shortly.</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container" style="max-width: 1280px;">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-main">
+                    <a href="#" class="logo">Waarp<span class="gradient-text">Tech</span></a>
+                    <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #9CA3AF;">Empowering you with future skills.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Courses</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><a href="mailto:support@waarp.tech">support@waarp.tech</a></li>
+                        <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="footer-socials">
+                        <a href="#"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path></svg></a>
+                        <a href="#"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg></a>
+                        <a href="#"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12.011c0 4.434 2.757 8.19 6.538 9.54.477.087.652-.207.652-.46 0-.226-.008-.825-.013-1.62-2.676.582-3.24-1.286-3.24-1.286-.434-1.103-1.06-1.397-1.06-1.397-.867-.593.065-.58.065-.58.958.067 1.462 1.005 1.462 1.005.852 1.462 2.23 1.04 2.773.796.087-.618.332-1.04.606-1.28-2.116-.24-4.34-1.057-4.34-4.703 0-1.04.37-1.884 1.005-2.55-.1-.24-.436-1.205.096-2.513 0 0 .798-.255 2.613.978.758-.21 1.57-.316 2.38-.32.81.004 1.622.11 2.38.32 1.815-1.233 2.613-.978 2.613-.978.534 1.308.197 2.273.097 2.513.637.666 1.003 1.51 1.003 2.55 0 3.654-2.228 4.46-4.348 4.693.342.295.65.878.65 1.772 0 1.28-.012 2.312-.012 2.624 0 .255.174.55.656.458C19.247 20.202 22 16.444 22 12.01C22 6.477 17.523 2 12 2z" clip-rule="evenodd" /></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 WaarpTech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Message Box -->
+    <div id="message-box" class="message-box"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DOM Elements ---
+            const form = document.getElementById('registration-form');
+            const steps = document.querySelectorAll('.form-step');
+            const registerBtn = document.getElementById('register-btn');
+            const messageBox = document.getElementById('message-box');
+            const header = document.querySelector('.main-header');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // --- UI Logic ---
+            function showStep(stepIndex) {
+                steps.forEach((step, index) => {
+                    step.classList.toggle('active', index === stepIndex);
+                });
+            }
+
+            function showMessage(message, duration = 4000) {
+                messageBox.textContent = message;
+                messageBox.classList.add('show');
+                setTimeout(() => {
+                    messageBox.classList.remove('show');
+                }, duration);
+            }
+
+            // --- Formspree Submission ---
+            async function handleFormSubmit(event) {
+                event.preventDefault(); // Prevent the default form submission
+                
+                // --- Form Validation ---
+                const name = document.getElementById('full-name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const course = document.getElementById('course-selection').value;
+            
+                if (!name || !email || !course || !phone) {
+                    showMessage("Please fill out all fields.", 3000);
+                    return;
+                }
+                if (phone.length < 10 || !/^\d+$/.test(phone)) {
+                    showMessage("Please enter a valid 10-digit phone number.", 3000);
+                    return;
+                }
+
+                registerBtn.textContent = 'Submitting...';
+                registerBtn.disabled = true;
+
+                const formData = new FormData(event.target);
+                try {
+                    const response = await fetch(event.target.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        showStep(1); // Show success message
+                    } else {
+                        throw new Error('Form submission failed.');
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    showMessage('There was an error submitting the form. Please try again.', 4000);
+                    registerBtn.textContent = 'Register';
+                    registerBtn.disabled = false;
+                }
+            }
+
+            form.addEventListener('submit', handleFormSubmit);
+
+            // --- Header Scroll Animation ---
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+            
+            // --- Mobile menu toggle ---
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+        });
+    </script>
+
+</body>
+</html>
