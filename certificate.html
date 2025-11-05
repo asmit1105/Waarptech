@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Authorizer</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Use a classic serif font for the certificate name */
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body class="bg-black min-h-screen flex flex-col items-center justify-start p-4 pt-0">
+
+    <!-- ===== Header ===== -->
+    <header class="w-full bg-black border-b border-gray-800 sticky top-0 z-10">
+        <nav class="container mx-auto max-w-6xl flex justify-between items-center p-6">
+            <!-- Logo -->
+            <div class="text-white text-3xl font-bold">
+                Waarp<span class="text-blue-500">Tech</span>
+            </div>
+            <!-- Nav Links (Desktop) -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="courses.html" class="text-gray-300 hover:text-white transition">Courses</a>
+                <a href="about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                <a href="contact.html" class="text-gray-300 hover:text-white transition">Contact</a>
+                <a href="register.html" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+                    Register
+                </a>
+            </div>
+            <!-- Mobile Menu Button (placeholder) -->
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="flex-grow flex items-center justify-center w-full">
+        <!-- Main container updated to dark theme -->
+        <div class="bg-gray-900 p-8 rounded-xl shadow-2xl shadow-blue-500/10 w-full max-w-4xl my-12">
+
+            <!-- ===== VERIFICATION VIEW (FIXED) ===== -->
+            <div id="verificationView">
+                <h1 class="text-3xl font-bold text-white text-center mb-6">Verify Your Certificate</h1>
+                <p class="text-gray-400 text-center mb-8">Please enter your unique certificate code below to view and download your certificate.</p>
+                
+                <div class="max-w-md mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <!-- Dark theme input -->
+                        <input type="text" id="certificateCode" placeholder="Enter Unique Code" class="flex-grow p-4 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-800">
+                        <!-- Blue button matching website theme -->
+                        <button id="verifyButton" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200">
+                            Verify
+                        </button>
+                    </div>
+                    <!-- Error Message Container -->
+                    <p id="errorMessage" class="text-red-500 text-center font-medium mt-4 h-6"></p>
+                </div>
+            </div>
+
+            <!-- ===== CERTIFICATE VIEW (Initially Hidden & FIXED) ===== -->
+            <div id="certificateView" class="hidden text-center">
+            
+                <div class="p-6 bg-green-900/50 border-l-4 border-green-500 rounded-lg">
+                    <h2 class="text-2xl font-bold text-green-300">Certificate Verified!</h2>
+                </div>
+        
+                <div class="mt-8 text-left max-w-lg mx-auto space-y-4">
+                    <p class="text-lg">
+                        <span class="font-semibold text-gray-300">Recipient:</span>
+                        <span id="recipientName" class="text-white"></span>
+                    </p>
+                    <p class="text-lg">
+                        <span class="font-semibold text-gray-300">Course:</span>
+                        <span id="courseName" class="text-white"></span>
+                    </p>
+                </div>
+        
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mt-12">
+                    <!-- Primary blue button for download -->
+                    <a id="downloadLink" href="#" download="certificate.pdf" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200 text-center">
+                        Download Certificate
+                    </a>
+                    <!-- Secondary gray button for back -->
+                    <button id="backButton" class="bg-gray-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-600 transition duration-200">
+                        Back
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- MOCK DATABASE ---
+            // This is where you plug in your data.
+            // Add your unique codes and corresponding certificate details here.
+            // IMPORTANT: You MUST replace the placeholder pdfUrl with a real URL to your certificate PDF.
+            const certificateDatabase = {
+                "WTP-FAWD-2025-00124": {
+                    name: "Rajat Sharma",
+                    course: "Full-Stack Web Development",
+                    date: "June 2025 - August 2025",
+                    pdfUrl: "https://drive.google.com/file/d/11DZevO3p0Wxmns78rfWcFOJXQlNTZ-EK/view?usp=sharing" // IMPORTANT: Replace with actual URL to PDF
+                },
+                "WTP-FSWD-2025-00123": {
+                    name: "Ishita Bansal",
+                    course: "Full-Stack Web Development",
+                    date: "June 2025 - August 2025",
+                    pdfUrl: "https://drive.google.com/file/d/1ElluhnT3RZgN1glycoyPlfZkp5IsLZpq/view?usp=sharing" // IMPORTANT: Replace with actual URL to PDF
+                },
+            };
+            // --- End of Mock Database ---
+
+
+            // Get DOM Elements
+            const verificationView = document.getElementById('verificationView');
+            const certificateView = document.getElementById('certificateView');
+            const verifyButton = document.getElementById('verifyButton');
+            const certificateCodeInput = document.getElementById('certificateCode');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            const recipientName = document.getElementById('recipientName');
+            const courseName = document.getElementById('courseName');
+            
+            const downloadLink = document.getElementById('downloadLink');
+            const backButton = document.getElementById('backButton');
+
+            // Function to handle code verification
+            function verifyCode() {
+                const code = certificateCodeInput.value.trim().toUpperCase();
+                
+                if (certificateDatabase.hasOwnProperty(code)) {
+                    // Code is VALID
+                    const data = certificateDatabase[code];
+                    
+                    // Populate certificate info
+                    recipientName.textContent = data.name;
+                    courseName.textContent = data.course;
+
+                    // Set download link
+                    downloadLink.href = data.pdfUrl;
+                    // Suggest a filename for the download (e.g., "Jane_Doe_Web_Development_101_Certificate.pdf")
+                    downloadLink.setAttribute('download', `${data.name.replace(/\s+/g, '_')}_${data.course.replace(/\s+/g, '_')}_Certificate.pdf`);
+                    
+                    // Switch views
+                    verificationView.classList.add('hidden');
+                    certificateView.classList.remove('hidden');
+                    // Check if errorMessage exists before setting textContent
+                    if (errorMessage) {
+                        errorMessage.textContent = '';
+                    }
+                } else {
+                    // Code is INVALID
+                    // Check if errorMessage exists before setting textContent
+                    if (errorMessage) {
+                        errorMessage.textContent = 'Invalid code. Please check and try again.';
+                    }
+                }
+            }
+
+            // Function to go back to the verification screen
+            function goBack() {
+                certificateView.classList.add('hidden');
+                verificationView.classList.remove('hidden');
+                // Check if certificateCodeInput exists before setting value
+                if (certificateCodeInput) {
+                    certificateCodeInput.value = ''; // Clear the input
+                }
+                // Check if errorMessage exists before setting textContent
+                if (errorMessage) {
+                    errorMessage.textContent = ''; // Clear any errors
+                }
+            }
+
+            // Attach Event Listeners
+            // Add checks to ensure elements exist before adding listeners
+            if (verifyButton) {
+                verifyButton.addEventListener('click', verifyCode);
+            }
+            
+            // Allow pressing Enter to verify
+            if (certificateCodeInput) {
+                certificateCodeInput.addEventListener('keyup', (event) => {
+                    if (event.key === 'Enter') {
+                        verifyCode();
+                    }
+                });
+            }
+            
+            if (backButton) {
+                backButton.addEventListener('click', goBack);
+            }
+        });
+    </script>
+
+</body>
+</html>
